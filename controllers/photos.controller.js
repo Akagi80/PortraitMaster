@@ -13,8 +13,15 @@ exports.add = async (req, res) => {
       const fileName = file.path.split('/').slice(-1)[0]; // cut only filename from full path, e.g. C:/test/abc.jpg -> abc.jpg
       const fileExt = fileName.split('.').slice(-1)[0]; // 1 Błąd: add walidacja rozszerzenia zdjęcia
 
+      const patternText = /^[A-Z|a-z|0-9|_|-| ]{1,}$/;
+      const patternEmail = /^[A-Z|a-z|0-9]+@[A-Z|a-z|0-9]+\.[a-zA-Z]{2,4}$/;
+
+      const correctTitle = title.match(patternText).join('');
+      const correctAuthor = author.match(patternText).join('');
+      const correctEmail = email.match(patternEmail).join('');
+
       // 1 Błąd: add walidacja rozszerzenia zdjęcia
-      if(fileExt === 'gif' || fileExt === 'jpg' || fileExt === 'png') {
+      if(fileExt === 'gif' || fileExt === 'jpg' || fileExt === 'png' && title === correctTitle && author === correctAuthor && email === correctEmail ) {
         const newPhoto = new Photo({ title, author, email, src: fileName, votes: 0 });
         await newPhoto.save(); // ...save new photo in DB
         res.json(newPhoto);
