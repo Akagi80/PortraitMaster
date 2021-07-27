@@ -11,9 +11,9 @@ exports.add = async (req, res) => {
     if(title && author && email && file) { // if fields are not empty...
 
       const fileName = file.path.split('/').slice(-1)[0]; // cut only filename from full path, e.g. C:/test/abc.jpg -> abc.jpg
-      const fileExt = fileName.split('.').slice(-1)[0]; // 1 Błąd add walidacja rozszerzenia zdjęcia
+      const fileExt = fileName.split('.').slice(-1)[0]; // 1 Błąd: add walidacja rozszerzenia zdjęcia
 
-      // add walidacja rozszerzenia zdjęcia
+      // 1 Błąd: add walidacja rozszerzenia zdjęcia
       if(fileExt === 'gif' || fileExt === 'jpg' || fileExt === 'png') {
         const newPhoto = new Photo({ title, author, email, src: fileName, votes: 0 });
         await newPhoto.save(); // ...save new photo in DB
